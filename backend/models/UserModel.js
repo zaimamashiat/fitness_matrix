@@ -30,13 +30,16 @@ const userSchema = new mongoose.Schema({
     },
     height: {
         type: Number,
-        required: true,
     },
     weight: {
         type: Number, 
-        required: true,
     },
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    toJSON: { virtuals: true }, 
+    toObject: { virtuals: true },
+});
+
 
 userSchema.virtual('age').get(function () {
     const now = moment();

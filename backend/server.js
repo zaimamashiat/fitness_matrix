@@ -13,10 +13,7 @@ app.use(cors());
 app.use(express.json()); // Parse JSON requests
 
 // Database connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => console.log("Database connected"))
+mongoose.connect(process.env.MONGO_URI).then(() => console.log("Database connected"))
   .catch((err) => console.error(err));
 
 // Import routes

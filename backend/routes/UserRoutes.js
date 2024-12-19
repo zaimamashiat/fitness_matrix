@@ -5,22 +5,22 @@ const authenticate = require('../middleware/AuthMiddleware');
 
 const router = express.Router();
 
-// Route to create a user
+// create a user
 router.post('/', userController.createUser);
 
-// Route for user login
+// user login
 router.post('/login', userController.loginUser);
 
-// Route to get all users
+// get all users
 router.get('/', userController.getAllUsers);
 
-// Route to get a single user by ID
+// get a single user by ID
 router.get('/:id',authenticate, userController.getUserById);
 
-// Route to update a user
-router.put('/:id', userController.updateUser);
+// update a user
+router.put('/:id',authenticate, userController.updateUser);
 
-// Route to delete a user
-router.delete('/:id', userController.deleteUser);
+// delete a user
+router.delete('/:id',authenticate, userController.deleteUser);
 
 module.exports = router;
