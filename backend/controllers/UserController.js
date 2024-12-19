@@ -100,6 +100,11 @@ exports.updateUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found.' });
         }
+
+        if (user.id != req.params.id){
+            return res.status(404).json({ message: 'Cant Update this user. You cannot Update someone else. ' });
+        }
+        
         res.status(200).json({ message: 'User updated successfully.', user });
     } catch (err) {
         res.status(500).json({ message: 'Error updating user.', error: err.message });
@@ -112,6 +117,9 @@ exports.deleteUser = async (req, res) => {
         const user = await User.findByIdAndDelete(req.params.id);
         if (!user) {
             return res.status(404).json({ message: 'User not found.' });
+        }
+        if (user.id != req.params.id){
+            return res.status(404).json({ message: 'Cant Delete this user. You cannot delete someone else. ' });
         }
         res.status(200).json({ message: 'User deleted successfully.' });
     } catch (err) {
