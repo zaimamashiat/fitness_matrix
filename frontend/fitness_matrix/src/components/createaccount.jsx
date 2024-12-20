@@ -1,8 +1,7 @@
 import React from 'react'
 
-function Login() {
+function CreateAccount() {
   return (
-    
         <>
           <section className="bg-white">
             <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
@@ -175,7 +174,7 @@ function Login() {
             </div>
           </section>
         </>
-      )
+      );
     }
 
-export default Login
+export default CreateAccount

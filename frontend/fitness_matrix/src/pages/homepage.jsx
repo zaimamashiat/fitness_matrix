@@ -1,11 +1,10 @@
 import React from 'react';
 import Banner from '../components/banner';
-import Homecard from '../components/homecard'; // Import the renamed Homecard component
-import Bmi from '../components/bmi';
-import Recipe from '../components/recipe';
-import CalorieCalculator from '../components/caloriecounter';
+import Homecard from '../components/homecard';
+import Navbar from '../components/navbar';
 
-function Home() {
+
+function HomePage() {
   const cardsData = [
     {
       title: "Manage your meals",
@@ -27,6 +26,7 @@ function Home() {
 
   return (
     <div>
+      <Navbar />
       <Banner />
       
       {/* Container for the Homecards */}
@@ -47,4 +47,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;
