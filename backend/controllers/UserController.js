@@ -67,11 +67,10 @@ exports.loginUser = async (req, res) => {
     }
 };
 
-
 // Get all users
 exports.getAllUsers = async (req, res) => {
     try {
-        const users = await User.find();
+        const users = await User.find().select('-password -dob -phoneNumber');
         res.status(200).json(users);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching users.', error: err.message });
@@ -81,7 +80,7 @@ exports.getAllUsers = async (req, res) => {
 // Get user by ID
 exports.getUserById = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).select('-password -dob -phoneNumber');
         if (!user) {
             return res.status(404).json({ message: 'User not found.' });
         }
@@ -90,6 +89,7 @@ exports.getUserById = async (req, res) => {
         res.status(500).json({ message: 'Error fetching user.', error: err.message });
     }
 };
+
 
 // Update user
 exports.updateUser = async (req, res) => {
