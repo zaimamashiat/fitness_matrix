@@ -6,7 +6,7 @@ import BMIPage from "./pages/bmipage";
 import RecipePage from "./pages/recipepage";
 import CalorieCalculatorPage from "./pages/caloriecalculatorpage";
 import CreateAccountPage from "./pages/createaccountpage";
-
+import Shop from "./pages/shoppage";
 function App() {
     return (
         <div>
@@ -19,7 +19,9 @@ function App() {
                 <Route
                     path="/caloriescalc"
                     element={<CalorieCalculatorPage />}
+                
                 />
+                <Route path="/shop" element={<Shop />} />
             </Routes>
         </div>
     );

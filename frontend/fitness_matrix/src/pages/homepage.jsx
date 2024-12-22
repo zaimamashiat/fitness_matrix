@@ -2,6 +2,7 @@ import React from 'react';
 import Banner from '../components/banner';
 import Homecard from '../components/homecard';
 import Navbar from '../components/navbar';
+import Shop from '../components/shop';
 
 
 function HomePage() {
@@ -40,8 +41,8 @@ function HomePage() {
             description={card.description} 
           />
         ))}
-
       </div>
+      <Shop/>
       
     </div>
   );
