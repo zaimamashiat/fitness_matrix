@@ -2,9 +2,8 @@ import React from 'react';
 import Banner from '../components/banner';
 import Homecard from '../components/homecard';
 import Navbar from '../components/navbar';
-import Shop from '../components/shop';
 import Footer from '../components/footer';
-
+import Trackercard from '../components/trackercard';
 
 function HomePage() {
   const cardsData = [
@@ -16,8 +15,7 @@ function HomePage() {
     {
       title: "Power Up Your Workout",
       image: "https://images.unsplash.com/photo-1554284126-aa88f22d8b74?q=80&w=1988&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description: "Elevate your fitness routine with effective workout plans tailored to your goals. From strength training to cardio, explore routines that keep you motivated and build strength, endurance, and flexibility",
-      
+      description: "Elevate your fitness routine with effective workout plans tailored to your goals. From strength training to cardio, explore routines that keep you motivated and build strength, endurance, and flexibility.",
     },
     {
       title: "Yoga & Mindfulness",
@@ -31,6 +29,8 @@ function HomePage() {
       <Navbar />
       <Banner />
       
+      
+      
       {/* Container for the Homecards */}
       <div style={{ display: 'flex', gap: '20px', padding: '20px' }}>
         {/* Map through the data and create a Homecard for each */}
@@ -43,10 +43,9 @@ function HomePage() {
           />
         ))}
       </div>
-      <Shop/>
-
-      <Footer/>
       
+      <Trackercard />
+      <Footer />
     </div>
   );
 }
