@@ -223,23 +223,10 @@ function CreateAccount() {
                   required
                 />
               </div>
-              <div className="col-span-6">
-                <label htmlFor="marketingAccept" className="flex gap-4">
-                  <input
-                    type="checkbox"
-                    id="marketingAccept"
-                    name="marketingAccept"
-                    checked={formData.marketingAccept}
-                    onChange={handleChange}
-                    className="size-5 rounded-md border-gray-200 bg-white shadow-sm"
-                  />
-                  <span className="text-sm text-gray-700">
-                    I want to receive emails about events, product updates, and company announcements.
-                  </span>
-                </label>
-              </div>
+
               {error && <p className="col-span-6 text-sm text-red-600">{error}</p>}
               {success && <p className="col-span-6 text-sm text-green-600">{success}</p>}
+
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                 <button
                   type="submit"
@@ -248,6 +235,12 @@ function CreateAccount() {
                   Create an account
                 </button>
               </div>
+              <p className="col-span-6 text-center text-sm text-gray-600">
+                Already have an account?{' '}
+                <a href="/login" className="text-blue-600 hover:underline">
+                  Login!
+                </a>
+              </p>
             </form>
           </div>
         </main>

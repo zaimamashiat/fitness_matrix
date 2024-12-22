@@ -3,6 +3,7 @@ import Banner from '../components/banner';
 import Homecard from '../components/homecard';
 import Navbar from '../components/navbar';
 import Shop from '../components/shop';
+import Footer from '../components/footer';
 
 
 function HomePage() {
@@ -43,6 +44,8 @@ function HomePage() {
         ))}
       </div>
       <Shop/>
+
+      <Footer/>
       
     </div>
   );
