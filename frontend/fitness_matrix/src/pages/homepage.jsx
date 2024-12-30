@@ -4,6 +4,7 @@ import Homecard from '../components/homecard';
 import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Trackercard from '../components/trackercard';
+import FoodCalculator from '../components/foodcal';
 
 function HomePage() {
   const cardsData = [
@@ -46,6 +47,7 @@ function HomePage() {
       
       <Trackercard />
       <Footer />
+      <FoodCalculator/>
     </div>
   );
 }

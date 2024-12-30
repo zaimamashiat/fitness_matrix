@@ -1,99 +1,228 @@
-import React from 'react';
-// import './CalorieCalculator.css'; // Assume you use CSS for styling
+import React, { useState } from "react";
+import "./FoodCalculator.css";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import OAuth from "oauth-1.0a";
+import CryptoJS from "crypto-js";
 
-const CalorieCalculator = () => {
+function CalorieCalculator() {
+  const [food, setFood] = useState("");
+  const [calories, setCalories] = useState(0);
+  const [macros, setMacros] = useState({ protein: 0, fat: 0, carbs: 0 });
+  const [waterIntake, setWaterIntake] = useState(0);
+  const [totalCalories, setTotalCalories] = useState(0);
+
+  const fetchAccessToken = async () => {
+    const tokenUrl = "https://oauth.fatsecret.com/connect/token";
+    const clientId = "3c1b07102f5d43dfa8c2e4bff40803e4";
+    const clientSecret = "b056e1bf92964355bce30c793ba40439";
+  
+    const body = new URLSearchParams();
+    body.append("grant_type", "client_credentials");
+    body.append("scope", "basic");
+  
+    try {
+      const response = await fetch(tokenUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body,
+      });
+  
+      const data = await response.json();
+      if (data.access_token) {
+        return data.access_token;
+      } else {
+        throw new Error("Failed to retrieve access token.");
+      }
+    } catch (error) {
+      console.error("Error fetching access token:", error);
+      throw error;
+    }
+  };
+  
+  const handleFoodSubmit = async () => {
+    if (!food) {
+      alert("Please enter a food item.");
+      return;
+    }
+  
+    try {
+      const accessToken = await fetchAccessToken();
+      const apiUrl = `https://platform.fatsecret.com/rest/server.api?method=foods.search&search_expression=${encodeURIComponent(
+        food
+      )}&format=json`;
+  
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const data = await response.json();
+  
+      if (data.foods && data.foods.food) {
+        const foodItem = Array.isArray(data.foods.food)
+          ? data.foods.food[0]
+          : data.foods.food;
+  
+        setCalories(parseInt(foodItem.calories) || 0);
+        setMacros({
+          protein: parseFloat(foodItem.protein) || 0,
+          fat: parseFloat(foodItem.fat) || 0,
+          carbs: parseFloat(foodItem.carbohydrate) || 0,
+        });
+      } else {
+        alert("No nutrition data found for the entered food item.");
+      }
+    } catch (error) {
+      console.error("Error fetching food data:", error);
+      alert("Failed to fetch nutrition data. Please try again.");
+    }
+  };
+  
+  const handleAddCalories = () => {
+    setTotalCalories((prev) => prev + calories);
+  };
+
+  const handleWaterInput = (amount) => {
+    setWaterIntake((prev) => Math.min(prev + amount, 3000));
+  };
+
   return (
-    <div className="calorie-calculator">
-      <aside className="sidebar">
-        <h2>Calories Account</h2>
-        <nav>
-          <ul>
-            <li className="active">Norm</li>
-            <li>Eating</li>
-            <li>Water</li>
-            <li>Statistics</li>
-          </ul>
-        </nav>
-        <div className="settings">Settings</div>
-      </aside>
-      <main className="main-content">
-        <header className="header">
-          <h1>Calculating daily calorie intake</h1>
-          <div className="user-info">Carol Smith</div>
+    <div className="calorie-calculator" style={{ backgroundColor: "#ffffff", padding: "20px" }}>
+      <main className="main-content" style={{ padding: "20px" }}>
+        <header className="header" style={{ marginBottom: "20px" }}>
+          <h1 style={{ fontSize: "28px", color: "#00796b" }}>Food Calorie Counter</h1>
         </header>
-        <section className="calculation-section">
-          <div className="parameters">
-            <h3>Parameter</h3>
-            <form>
-              <div className="form-group">
-                <label>Age</label>
-                <input type="number" defaultValue={24} />
+
+        <div className="calculator" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
+          <div className="left-panel" style={{ backgroundColor: "#ffffff", borderRadius: "10px", padding: "20px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
+            <h2 style={{ fontSize: "20px", color: "#00796b" }}>Track Your Food</h2>
+            <div className="input-group" style={{ marginTop: "20px" }}>
+              <label style={{ fontSize: "16px", color: "#00796b" }}>Food Item</label>
+              <input
+                type="text"
+                placeholder="Enter food name"
+                value={food}
+                onChange={(e) => setFood(e.target.value)}
+                style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #00796b", marginTop: "10px" }}
+              />
+              <button
+                className="calculate-btn"
+                onClick={handleFoodSubmit}
+                style={{ marginTop: "10px", padding: "10px 20px", borderRadius: "5px", backgroundColor: "#00796b", color: "#fff", border: "none", cursor: "pointer" }}
+              >
+                Check Nutrition
+              </button>
+              <button
+                className="add-calorie-btn"
+                onClick={handleAddCalories}
+                style={{ marginTop: "10px", padding: "10px 20px", borderRadius: "5px", backgroundColor: "#ffe0b2", color: "#00796b", border: "none", cursor: "pointer" }}
+              >
+                Add to Total Calories
+              </button>
+            </div>
+            <div className="daily-rate" style={{ marginTop: "20px" }}>
+              <h3 style={{ fontSize: "18px", color: "#00796b" }}>Nutrition Info</h3>
+              <p style={{ fontSize: "16px", color: "#00796b" }}>Calories: {calories} kcal</p>
+              <div style={{ display: "flex", gap: "20px", justifyContent: "center", marginTop: "10px" }}>
+                <div style={{ textAlign: "center" }}>
+                  <CircularProgressbar
+                    value={(macros.protein / (macros.protein + macros.fat + macros.carbs)) * 100}
+                    text={`${macros.protein}g`}
+                    styles={buildStyles({
+                      pathColor: "#00796b",
+                      textColor: "#00796b",
+                      textSize: "12px",
+                    })}
+                    style={{ width: "100px" }}
+                  />
+                  <p style={{ marginTop: "5px", fontSize: "12px", color: "#00796b" }}>Protein</p>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                  <CircularProgressbar
+                    value={(macros.fat / (macros.protein + macros.fat + macros.carbs)) * 100}
+                    text={`${macros.fat}g`}
+                    styles={buildStyles({
+                      pathColor: "#ff7043",
+                      textColor: "#00796b",
+                      textSize: "12px",
+                    })}
+                    style={{ width: "100px" }}
+                  />
+                  <p style={{ marginTop: "5px", fontSize: "12px", color: "#00796b" }}>Fat</p>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                  <CircularProgressbar
+                    value={(macros.carbs / (macros.protein + macros.fat + macros.carbs)) * 100}
+                    text={`${macros.carbs}g`}
+                    styles={buildStyles({
+                      pathColor: "#ffe0b2",
+                      textColor: "#00796b",
+                      textSize: "12px",
+                    })}
+                    style={{ width: "100px" }}
+                  />
+                  <p style={{ marginTop: "5px", fontSize: "12px", color: "#00796b" }}>Carbs</p>
+                </div>
               </div>
-              <div className="form-group">
-                <label>Weight</label>
-                <input type="number" defaultValue={50} />
-              </div>
-              <div className="form-group">
-                <label>Height</label>
-                <input type="number" defaultValue={164} />
-              </div>
-              <h3>Target</h3>
-              <div className="target-options">
-                <button type="button" className="active">Slimming</button>
-                <button type="button">Maintaining</button>
-                <button type="button">Mass</button>
-              </div>
-              <button type="submit" className="calculate-btn">Calculate</button>
-            </form>
-          </div>
-          <div className="daily-rate">
-            <h3>Daily rate</h3>
-            <p>For weight loss in a safe mode, the norm should be</p>
-            <ul>
-              <li>Proteins: 73g</li>
-              <li>Fats: 32g</li>
-              <li>Carbs: 147g</li>
-            </ul>
-            <div className="calories">
-              <h4>1457</h4>
-              <p>Kcal</p>
             </div>
           </div>
-          <div className="additional-calculation">
-            <h3>Additional calculation</h3>
-            <form>
-              <div className="form-group">
-                <label>Waist</label>
-                <input type="number" defaultValue={60} />
+
+          <div className="right-panel" style={{ backgroundColor: "#ffffff", borderRadius: "10px", padding: "20px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
+            <div style={{ marginBottom: "40px" }}>
+              <h2 style={{ fontSize: "20px", color: "#00796b" }}>Water Intake Tracker</h2>
+              <div style={{ marginTop: "20px", marginBottom: "20px", width: "150px", height: "150px", margin: "auto" }}>
+                <CircularProgressbar
+                  value={(waterIntake / 3000) * 100}
+                  text={`${waterIntake} ml`}
+                  styles={buildStyles({
+                    pathColor: "#00796b",
+                    textColor: "#00796b",
+                  })}
+                />
               </div>
-              <div className="form-group">
-                <label>Hips</label>
-                <input type="number" defaultValue={90} />
+              <div className="input-group" style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+                <button
+                  className="calculate-btn"
+                  onClick={() => handleWaterInput(250)}
+                  style={{ padding: "10px 20px", borderRadius: "5px", backgroundColor: "#00796b", color: "#fff", border: "none", cursor: "pointer" }}
+                >
+                  Add 250ml
+                </button>
+                <button
+                  className="calculate-btn"
+                  onClick={() => setWaterIntake(0)}
+                  style={{ padding: "10px 20px", borderRadius: "5px", backgroundColor: "#ff7043", color: "#fff", border: "none", cursor: "pointer" }}
+                >
+                  Reset
+                </button>
               </div>
-              <div className="form-group">
-                <label>Neck</label>
-                <input type="number" defaultValue={24} />
-              </div>
-              <button type="submit" className="calculate-btn">Calculate</button>
-            </form>
-            <div className="body-fat">
-              <h4>Body fat</h4>
-              <p>Approximate percentage</p>
-              <div className="progress">
-                <div className="progress-bar" style={{ width: '23%' }}></div>
-              </div>
-              <p>Good: 23% - 25%</p>
             </div>
-            <div className="water-rate">
-              <h4>Water rate</h4>
-              <p>Daily water intake</p>
-              <h4>1240ml</h4>
+
+            <div>
+              <h2 style={{ fontSize: "20px", color: "#00796b" }}>Total Calories Consumed</h2>
+              <div style={{ marginTop: "20px", width: "150px", height: "150px", margin: "auto" }}>
+                <CircularProgressbar
+                  value={(totalCalories / 2000) * 100}
+                  text={`${totalCalories} kcal`}
+                  styles={buildStyles({
+                    pathColor: "#ffe0b2",
+                    textColor: "#00796b",
+                  })}
+                />
+              </div>
             </div>
           </div>
-        </section>
+        </div>
       </main>
     </div>
   );
-};
+}
 
 export default CalorieCalculator;
