@@ -5,6 +5,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/footer';
 import Trackercard from '../components/trackercard';
 import FoodCalculator from '../components/foodcal';
+import VideoGrid from '../components/yogavideogrid';
 
 function HomePage() {
   const cardsData = [
@@ -47,7 +48,7 @@ function HomePage() {
       
       <Trackercard />
       <Footer />
-      <FoodCalculator/>
+      <VideoGrid/>
     </div>
   );
 }
