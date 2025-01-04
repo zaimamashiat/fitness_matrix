@@ -10,6 +10,9 @@ import Checkout from '../components/checkout';
 import GymMap from '../components/gymmap';
 import Burntcal from '../components/burntcal';
 import GymFinder from '../components/gymmap';
+import MeditationMusic from '../components/yogamusic';
+import DietChart from '../components/diet';
+import WorkoutRoutine from '../components/routine';
 
 function HomePage() {
   const cardsData = [
@@ -52,8 +55,8 @@ function HomePage() {
       
       <Trackercard />
       <Footer />
-      <GymFinder/>
       
+      <WorkoutRoutine/>
     </div>
   );
 }
