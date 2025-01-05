@@ -3,6 +3,36 @@ import { AuthContext } from "../context/authcontext";
 
 function Navbar() {
     const { user, logout, loading } = useContext(AuthContext);
+    const buttonList = [
+        {
+            id:1,
+            name: "Meals",
+            href: "/"
+        },
+        {
+            id:2,
+            name: "Workout",
+            href: "/"
+        },
+        {
+            id:3,
+            name: "Yoga and Meditation",
+            href: "/"
+        },
+        {
+            id:4,
+            name: "Check your Progress",
+            href: "/"
+        },
+        {
+            id:5,
+            name: "Shop",
+            href: "/shop"
+        }
+        
+
+        
+    ];
     return (
         <header className="bg-white dark:bg-gray-900">
             <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -30,50 +60,16 @@ function Navbar() {
                     <div className="md:flex md:items-center md:gap-12">
                         <nav aria-label="Global" className="hidden md:block">
                             <ul className="flex items-center gap-6 text-sm">
-                                <li>
-                                    <a
-                                        className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                                        href="#"
-                                    >
-                                        Meals
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a
-                                        className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                                        href="#"
-                                    >
-                                        Workout
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a
-                                        className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                                        href="#"
-                                    >
-                                        Yoga and Meditation
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a
-                                        className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                                        href="#"
-                                    >
-                                        Check your Progress
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a
-                                        className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                                        href="#shop"
-                                    >
-                                        Shop
-                                    </a>
-                                </li>
+                                {buttonList.map((button) => (
+                                    <li key={button.id}>
+                                        <a
+                                            className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                                            href={`${button.href}`}
+                                        >
+                                            {button.name}
+                                        </a>
+                                    </li>
+                                ))}
                             </ul>
                         </nav>
 

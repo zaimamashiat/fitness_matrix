@@ -14,6 +14,11 @@ import ProtectedRoute from "./components/protectedpage";
 import Routinepage from "./pages/routinepage";
 import CaloriesTrackerpage from "./pages/calorietracker";
 import Dietchartpage from "./pages/dietchartpage";
+import Yogameditationpage from "./pages/yogameditationpage";
+import Workoutvideopage from "./pages/workoutvideopage";
+import Yogamusicpage from "./pages/yogamusicpage";
+import Notfoundpage from "./pages/404page";
+import Checkoutpage from "./pages/checkoutpage";
 
 
 function App() {
@@ -31,6 +36,11 @@ function App() {
                 
                 />
                 <Route path="/shop" element={<Shop />} />
+                <Route path="/checkout" element={
+                        <ProtectedRoute>
+                            <Checkoutpage/>
+                        </ProtectedRoute>
+                    } />
                 <Route path="/dashboard" element={
                         <ProtectedRoute>
                             <Dashboardpage/>
@@ -39,6 +49,11 @@ function App() {
                 <Route path="/workoutroutine" element={
                         <ProtectedRoute>
                             <Routinepage/>
+                        </ProtectedRoute>
+                    } />
+                <Route path="/workoutvideo" element={
+                        <ProtectedRoute>
+                            <Workoutvideopage/>
                         </ProtectedRoute>
                     } />
                 <Route path="/caloriestracker" element={
@@ -51,7 +66,17 @@ function App() {
                             <Dietchartpage/>
                         </ProtectedRoute>
                     } />
-                    
+                <Route path="/yoga" element={
+                        <ProtectedRoute>
+                            <Yogameditationpage/>
+                        </ProtectedRoute>
+                    } />
+                <Route path="/yogamusic" element={
+                        <ProtectedRoute>
+                            <Yogamusicpage/>
+                        </ProtectedRoute>
+                    } />
+                <Route path="*" element={<Notfoundpage />} />
             </Routes>
             <Toaster position="bottom-right"/>
         </div>

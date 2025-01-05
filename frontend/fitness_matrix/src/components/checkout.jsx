@@ -1,90 +1,113 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { backend } from "../context/api";
+import { FaPlus, FaMinus, FaTrashAlt } from "react-icons/fa"; // Importing icons
 
-function Checkout({ selectedItem }) {
-  // Example placeholder for selectedItem prop:
-  // const selectedItem = {
-  //   image: "https://example.com/item-image.jpg",
-  //   name: "Instax Mini 90 Neo Classic",
-  //   price: "$144.99",
-  // };
+function Checkout() {
+    const [productsDetails, setProductsDetails] = useState([]);
+    const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('selectedProducts')) || []);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl p-8 bg-teal-50 rounded-lg shadow-lg">
-        {/* Item Section */}
-        {/* <div>
-          <img
-            src={selectedItem.image}
-            alt={selectedItem.name}
-            className="w-full h-auto object-cover rounded-md"
-          />
-          <div className="mt-4">
-            <h2 className="text-xl font-bold">{selectedItem.name}</h2>
-            <p className="text-2xl text-green-600 font-semibold">{selectedItem.price}</p>
-          </div>
-        </div> */}
+    // Fetch product details based on selected IDs
+    useEffect(() => {
+        const fetchSelectedProducts = async () => {
+            if (cartItems.length > 0) {
+                try {
+                    const response = await axios.post(`${backend}/product/selected`, {
+                        ids: cartItems,
+                    });
+                    setProductsDetails(response.data);
+                } catch (error) {
+                    console.error("Error fetching selected products:", error);
+                }
+            }
+        };
 
-        {/* Checkout Form */}
-        <div className="bg-gray-800 text-white p-6 rounded-md">
-          <h2 className="text-xl font-bold mb-4">Credit Card Checkout</h2>
-          <form className="space-y-4">
-            <div>
-              <label htmlFor="cardName" className="block text-sm font-medium">
-                Cardholder's Name
-              </label>
-              <input
-                type="text"
-                id="cardName"
-                className="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 text-gray-800"
-                placeholder="Enter your name"
-              />
-            </div>
-            <div>
-              <label htmlFor="cardNumber" className="block text-sm font-medium">
-                Card Number
-              </label>
-              <input
-                type="text"
-                id="cardNumber"
-                className="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 text-gray-800"
-                placeholder="1234 5678 9012 3456"
-              />
-            </div>
-            <div className="flex gap-4">
-              <div>
-                <label htmlFor="expirationDate" className="block text-sm font-medium">
-                  Expiration Date
-                </label>
-                <input
-                  type="text"
-                  id="expirationDate"
-                  className="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 text-gray-800"
-                  placeholder="MM/YY"
-                />
-              </div>
-              <div>
-                <label htmlFor="cvv" className="block text-sm font-medium">
-                  CVV
-                </label>
-                <input
-                  type="text"
-                  id="cvv"
-                  className="mt-1 w-full rounded-md border-gray-300 shadow-sm p-2 text-gray-800"
-                  placeholder="123"
-                />
-              </div>
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-teal-500 text-white py-2 rounded-md hover:bg-green-700 transition"
-            >
-              Place Order
-            </button>
-          </form>
+        fetchSelectedProducts();
+    }, [cartItems]);
+
+    // Increase quantity of the product
+    const increaseQuantity = (productId) => {
+        setCartItems((prevItems) => {
+            return prevItems.map((item) =>
+                item === productId ? item + 1 : item
+            );
+        });
+    };
+
+    // Decrease quantity of the product
+    const decreaseQuantity = (productId) => {
+        setCartItems((prevItems) => {
+            return prevItems.map((item) =>
+                item === productId && item > 1 ? item - 1 : item
+            );
+        });
+    };
+
+    // Remove product from cart
+    const removeProduct = (productId) => {
+        setCartItems((prevItems) => {
+            return prevItems.filter((item) => item !== productId);
+        });
+    };
+
+    // Update local storage when cart items change
+    useEffect(() => {
+        localStorage.setItem("selectedProducts", JSON.stringify(cartItems));
+    }, [cartItems]);
+
+    return (
+        <div className="max-w-screen-lg mx-auto mt-10 checkout-page">
+            <h1 className="text-2xl font-bold mb-4">Checkout</h1>
+
+            {productsDetails.length > 0 ? (
+                <ul>
+                    {productsDetails.map((product) => {
+                        const quantity = cartItems.filter((id) => id === product._id).length;
+
+                        return (
+                            <li key={product._id} className="border p-4 mb-4 rounded flex items-center justify-between">
+                                <div>
+                                    <h3>{product.name}</h3>
+                                    <p>${product.price.toFixed(2)}</p>
+                                </div>
+
+                                <div className="flex items-center space-x-2">
+                                    {/* Minus button */}
+                                    <button
+                                        onClick={() => decreaseQuantity(product._id)}
+                                        className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition"
+                                    >
+                                        <FaMinus />
+                                    </button>
+
+                                    {/* Quantity display */}
+                                    <span>{quantity}</span>
+
+                                    {/* Plus button */}
+                                    <button
+                                        onClick={() => increaseQuantity(product._id)}
+                                        className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition"
+                                    >
+                                        <FaPlus />
+                                    </button>
+
+                                    {/* Remove button */}
+                                    <button
+                                        onClick={() => removeProduct(product._id)}
+                                        className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition"
+                                    >
+                                        <FaTrashAlt />
+                                    </button>
+                                </div>
+                            </li>
+                        );
+                    })}
+                </ul>
+            ) : (
+                <p>No items in the cart.</p>
+            )}
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Checkout;

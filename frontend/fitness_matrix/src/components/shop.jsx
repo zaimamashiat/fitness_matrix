@@ -1,465 +1,211 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { backend } from "../context/api";
 
 function Shop() {
-  return (
-    <div>
-     
+    const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [filters, setFilters] = useState({
+        category: "All",
+        priceRange: [0, 100],
+        search: "",
+    });
+    const [selectedProducts, setSelectedProducts] = useState([]);
 
-      <section>
-        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-          <header>
-            <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">Gym Supplements</h2>
+    // Fetch product data
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get(`${backend}/product`);
+                setProducts(response.data);
+                setFilteredProducts(response.data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+        fetchProducts();
+    }, []);
 
-            <p className="mt-4 max-w-md text-gray-500">
-              Discover our premium range of gym supplements to help you achieve your fitness goals.
-              Whether you're bulking, cutting, or just staying healthy, we have the products you need.
-            </p>
-          </header>
+    // Apply filters when filters or products change
+    useEffect(() => {
+        let filtered = products;
 
-          <div className="mt-8 sm:flex sm:items-center sm:justify-between">
-            <div className="block sm:hidden">
-              <button
-                className="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600"
-              >
-                <span className="text-sm font-medium"> Filters & Sorting </span>
+        // Category filter
+        if (filters.category !== "All") {
+            filtered = filtered.filter(
+                (product) => product.category === filters.category
+            );
+        }
 
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="size-4 rtl:rotate-180"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </button>
-            </div>
+        // Price range filter
+        filtered = filtered.filter(
+            (product) =>
+                product.price >= filters.priceRange[0] &&
+                product.price <= filters.priceRange[1]
+        );
 
-            <div className="hidden sm:flex sm:gap-4">
-              <div className="relative">
-                <details className="group [&_summary::-webkit-details-marker]:hidden">
-                  <summary
-                    className="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600"
-                  >
-                    <span className="text-sm font-medium"> Category </span>
+        // Search filter
+        if (filters.search.trim() !== "") {
+            filtered = filtered.filter((product) =>
+                product.name
+                    .toLowerCase()
+                    .includes(filters.search.toLowerCase())
+            );
+        }
 
-                    <span className="transition group-open:-rotate-180">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="size-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
-                    </span>
-                  </summary>
+        setFilteredProducts(filtered);
+    }, [filters, products]);
 
-                  <div
-                    className="z-50 group-open:absolute group-open:top-auto group-open:mt-2 ltr:group-open:start-0"
-                  >
-                    <div className="w-96 rounded border border-gray-200 bg-white">
-                      <ul className="space-y-1 border-t border-gray-200 p-4">
-                        <li>
-                          <label htmlFor="FilterProtein" className="inline-flex items-center gap-2">
+    // Handle category change
+    const handleCategoryChange = (e) => {
+        setFilters((prev) => ({ ...prev, category: e.target.value }));
+    };
+
+    // Handle price range change
+    const handlePriceChange = (e, type) => {
+        const value = parseFloat(e.target.value) || 0;
+        setFilters((prev) => ({
+            ...prev,
+            priceRange:
+                type === "min"
+                    ? [value, prev.priceRange[1]]
+                    : [prev.priceRange[0], value],
+        }));
+    };
+
+    // Handle search input change
+    const handleSearchChange = (e) => {
+        setFilters((prev) => ({ ...prev, search: e.target.value }));
+    };
+
+    // Handle product selection
+    const toggleSelection = (productId) => {
+        setSelectedProducts((prev) => {
+            const updatedSelection = prev.includes(productId)
+                ? prev.filter((id) => id !== productId) // Deselect
+                : [...prev, productId]; // Select
+
+            // Store updated selection in localStorage
+            localStorage.setItem(
+                "selectedProducts",
+                JSON.stringify(updatedSelection)
+            );
+
+            return updatedSelection;
+        });
+    };
+
+    // Handle checkout button click
+    const handleCheckout = () => {
+        console.log("Selected Product IDs:", selectedProducts);
+        localStorage.setItem(
+          "selectedProducts",
+          JSON.stringify(selectedProducts)
+        );
+        // Navigate to checkout page or perform checkout logic
+        window.location.href = "/checkout";
+    };
+
+    return (
+        <div>
+            <section>
+                <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+                    <header>
+                        <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
+                            Gym Supplements
+                        </h2>
+                        <p className="mt-4 max-w-md text-gray-500">
+                            Discover our premium range of gym supplements to help you achieve your
+                            fitness goals. Whether you're bulking, cutting, or just staying healthy,
+                            we have the products you need.
+                        </p>
+                    </header>
+
+                    <div className="mt-8 flex items-center justify-between">
+                        {/* Category Filter */}
+                        <select
+                            className="border-gray-300 h-10 rounded"
+                            onChange={handleCategoryChange}
+                            value={filters.category}
+                        >
+                            <option value="All">All Categories</option>
+                            <option value="Protein">Protein</option>
+                            <option value="Vitamins">Vitamins</option>
+                            <option value="Pre-Workout">Pre-Workout</option>
+                        </select>
+
+                        {/* Price Range Filter */}
+                        <div className="flex gap-4">
                             <input
-                              type="checkbox"
-                              id="FilterProtein"
-                              className="size-5 rounded border-gray-300"
+                                type="number"
+                                placeholder="Min Price"
+                                className="border-gray-300 rounded"
+                                onChange={(e) => handlePriceChange(e, "min")}
+                                value={filters.priceRange[0]}
                             />
-
-                            <span className="text-sm font-medium text-gray-700"> Protein </span>
-                          </label>
-                        </li>
-
-                        <li>
-                          <label htmlFor="FilterVitamins" className="inline-flex items-center gap-2">
                             <input
-                              type="checkbox"
-                              id="FilterVitamins"
-                              className="size-5 rounded border-gray-300"
+                                type="number"
+                                placeholder="Max Price"
+                                className="border-gray-300 rounded"
+                                onChange={(e) => handlePriceChange(e, "max")}
+                                value={filters.priceRange[1]}
                             />
-
-                            <span className="text-sm font-medium text-gray-700"> Vitamins </span>
-                          </label>
-                        </li>
-
-                        <li>
-                          <label htmlFor="FilterPreWorkout" className="inline-flex items-center gap-2">
-                            <input
-                              type="checkbox"
-                              id="FilterPreWorkout"
-                              className="size-5 rounded border-gray-300"
-                            />
-
-                            <span className="text-sm font-medium text-gray-700"> Pre-Workout </span>
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </details>
-              </div>
-
-              <div className="relative">
-                <details className="group [&_summary::-webkit-details-marker]:hidden">
-                  <summary
-                    className="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600"
-                  >
-                    <span className="text-sm font-medium"> Price </span>
-
-                    <span className="transition group-open:-rotate-180">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="size-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
-                    </span>
-                  </summary>
-
-                  <div
-                    className="z-50 group-open:absolute group-open:top-auto group-open:mt-2 ltr:group-open:start-0"
-                  >
-                    <div className="w-96 rounded border border-gray-200 bg-white">
-                      <header className="flex items-center justify-between p-4">
-                        <span className="text-sm text-gray-700"> The highest price is $150 </span>
-
-                        <button type="button" className="text-sm text-gray-900 underline underline-offset-4">
-                          Reset
-                        </button>
-                      </header>
-
-                      <div className="border-t border-gray-200 p-4">
-                        <div className="flex justify-between gap-4">
-                          <label htmlFor="FilterPriceFrom" className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">$</span>
-
-                            <input
-                              type="number"
-                              id="FilterPriceFrom"
-                              placeholder="From"
-                              className="w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
-                            />
-                          </label>
-
-                          <label htmlFor="FilterPriceTo" className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">$</span>
-
-                            <input
-                              type="number"
-                              id="FilterPriceTo"
-                              placeholder="To"
-                              className="w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
-                            />
-                          </label>
                         </div>
-                      </div>
+
+                        {/* Search Filter */}
+                        <input
+                            type="text"
+                            placeholder="Search products..."
+                            className="border-gray-300 h-10 rounded"
+                            onChange={handleSearchChange}
+                            value={filters.search}
+                        />
                     </div>
-                  </div>
-                </details>
-              </div>
-            </div>
 
-            <div className="hidden sm:block">
-              <label htmlFor="SortBy" className="sr-only">SortBy</label>
-
-              <select id="SortBy" className="h-10 rounded border-gray-300 text-sm">
-                <option value="default">Sort By</option>
-                <option value="Title, DESC">Title, Z-A</option>
-                <option value="Title, ASC">Title, A-Z</option>
-                <option value="Price, DESC">Price, High-Low</option>
-                <option value="Price, ASC">Price, Low-High</option>
-              </select>
-            </div>
-          </div>
-
-          <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Protein Powder"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Whey Protein Isolate
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $49.99 </span>
-                  </p>
+                    {/* Product List */}
+                    <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                        {filteredProducts.map((product) => (
+                            <li
+                                key={product._id}
+                                onClick={() => toggleSelection(product._id)}
+                                className={`p-4 rounded-lg group block overflow-hidden cursor-pointer ${
+                                    selectedProducts.includes(product._id)
+                                        ? "border-2 border-teal-700/30"
+                                        : "border-2 border-transparent"
+                                }`}
+                            >
+                                <img
+                                    src={product.imageUrl}
+                                    alt={product.name}
+                                    className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+                                />
+                                <div className="relative pt-5">
+                                    <h3 className="text-sm text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                                        {product.name}
+                                    </h3>
+                                    <p className="mt-2 font-bold">
+                                        <span className="tracking-wider text-gray-900">
+                                            ${product.price.toFixed(2)}
+                                        </span>
+                                    </p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-              </a>
-            </li>
+            </section>
 
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1627467959547-8e44da7aa00a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Vitamins"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Multivitamin Complex
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $29.99 </span>
-                  </p>
-                </div>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1610360277501-ea948686dc52?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Pre-Workout"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Pre-Workout Energy Mix
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $39.99 </span>
-                  </p>
-                </div>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1595255753145-1c16510e11f8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Protein Bars"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Protein Bars (Pack of 12)
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $25.99 </span>
-                  </p>
-                </div>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1724160167551-2ffc3d7ca809?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Creatine"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Micronized Creatine Powder
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $34.99 </span>
-                  </p>
-                </div>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1633171031508-a8f26271e8aa?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Omega 3"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Omega-3 Fish Oil
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $19.99 </span>
-                  </p>
-                </div>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1709976142774-ce1ef41a8378?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="BCAAs"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Branched-Chain Amino Acids (BCAAs)
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $24.99 </span>
-                  </p>
-                </div>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1584116831322-57d789ed6a40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Mass Gainer"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Mass Gainer Shake
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $44.99 </span>
-
-
-                  </p>
-                </div>
-                </a>
-            </li>
-
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://www.guenergy.com.au/cdn/shop/files/chocoutrage.png?v=1713961841"
-                  alt="Energy Gel"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Energy Gel Pack
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $2.99 </span>
-                  </p>
-                </div>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://www.bevindustry.com/ext/resources/issues/2019/April/Cheribundi-Tart-Cherries-Beverage-Industry.jpg?1556044562"
-                  alt="Recovery Drink"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Post-Workout Recovery Drink
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $3.49 </span>
-                  </p>
-                </div>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1622485832460-7e78062fcb10?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Protein Cookies"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Protein Cookies (Pack of 6)
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $8.99 </span>
-                  </p>
-                </div>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="group block overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1675897275724-202ce4be4f23?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Protein Shake"
-                  className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-                />
-
-                <div className="relative bg-white pt-3">
-                  <h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-                    Ready-to-Drink Protein Shake
-                  </h3>
-
-                  <p className="mt-2">
-                    <span className="sr-only"> Regular Price </span>
-
-                    <span className="tracking-wider text-gray-900"> $4.99 </span>
-                  </p>
-                </div>
-              </a>
-            </li>
-          </ul>
+            {/* Floating Checkout Button */}
+            {selectedProducts.length > 0 && (
+                <button
+                    onClick={handleCheckout}
+                    className="fixed bottom-4 right-4 text-black px-6 py-3 rounded-lg shadow-lg hover:bg-green-600/10"
+                >
+                    Checkout ({selectedProducts.length})
+                </button>
+            )}
         </div>
-      </section>
-    </div>
-  );
+    );
 }
 
 export default Shop;
