@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 function Recipe() {
   return (
@@ -53,22 +53,20 @@ function Recipe() {
         className="h-56 w-full object-cover"
       />
 
-      <div className="p-4 sm:p-6">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-          {recipe.title}
-        </h3>
+                        <div className="p-4 sm:p-6">
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                {recipe.title}
+                            </h3>
 
-        <p className="mt-2 text-sm/relaxed text-gray-500 dark:text-gray-400">
-          {recipe.description}
-        </p>
-      </div>
-    </article>
-  ))}
-</div>
-
-
-    </div>
-  )
+                            <p className="mt-2 text-sm/relaxed text-gray-500 dark:text-gray-400">
+                                {recipe.description}
+                            </p>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </div>
+    );
 }
 
-export default Recipe
+export default Recipe;
