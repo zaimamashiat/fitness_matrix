@@ -22,7 +22,7 @@ function Navbar() {
         {
             id:4,
             name: "Check your Progress",
-            href: "/"
+            href: "/dashboard"
         },
         {
             id:5,
