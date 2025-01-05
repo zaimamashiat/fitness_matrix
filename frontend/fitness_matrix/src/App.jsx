@@ -22,7 +22,7 @@ import Blogpage from "./pages/blogpage";
 import Gymmappage from "./pages/gymmappage";
 import Burntcalpage from "./pages/burntcalpage";
 import CaloriesTrackerpage from "./pages/calorietracker";
-import GymLocatorpage from "./pages/WaterIntakeTracker";
+import WaterIntakePage from './pages/WaterIntakeTracker';
 
 function App() {
     return (
