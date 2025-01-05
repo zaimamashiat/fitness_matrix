@@ -4,18 +4,18 @@ const authenticate = require('../middleware/AuthMiddleware');
 const { createOrder, getOrders, getOrderById, deleteOrder } = require("../controllers/OrderController");
 
 // Apply authentication middleware to all routes
-router.use(authenticate);
+// router.use(authenticate);
 
 // Create a new order
-router.post("/", createOrder);
+router.post("/", authenticate, createOrder);
 
 // Get all orders for the authenticated user
-router.get("/", getOrders);
+router.get("/",authenticate, getOrders);
 
 // Get a specific order by ID
-router.get("/:id", getOrderById);
+router.get("/:id", authenticate, getOrderById);
 
 // Delete an order by ID
-router.delete("/:id", deleteOrder);
+router.delete("/:id", authenticate, deleteOrder);
 
 module.exports = router;

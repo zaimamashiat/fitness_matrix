@@ -57,9 +57,30 @@ function Checkout() {
     }, [cartItems]);
 
     // Handle checkout button click
-    const handleCheckout = () => {
-        setOrderPlaced(true);
-        // Here you can also add an API call to process the order
+    const handleCheckout = async () => {
+        try {
+            const products = productsDetails.map((product) => ({
+                productId: product._id,
+                quantity: cartItems.filter((id) => id === product._id).length,
+            }));
+
+            const response = await axios.post(
+                `${backend}/orders`,
+                { products },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+                    },
+                }
+            );
+
+            console.log("Order placed successfully:", response.data);
+            setOrderPlaced(true);
+            setCartItems([]); // Clear the cart after placing the order
+            localStorage.removeItem("selectedProducts"); // Clear local storage
+        } catch (error) {
+            console.error("Error placing order:", error);
+        }
     };
 
     return (
