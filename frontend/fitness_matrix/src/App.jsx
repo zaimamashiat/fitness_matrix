@@ -19,6 +19,8 @@ import Workoutvideopage from "./pages/workoutvideopage";
 import Yogamusicpage from "./pages/yogamusicpage";
 import Notfoundpage from "./pages/404page";
 import Checkoutpage from "./pages/checkoutpage";
+import Blogpage from "./pages/blogpage";
+import Gymmappage from "./pages/gymmappage";
 
 
 function App() {
@@ -74,6 +76,16 @@ function App() {
                 <Route path="/yogamusic" element={
                         <ProtectedRoute>
                             <Yogamusicpage/>
+                        </ProtectedRoute>
+                    } />
+                <Route path="/blog" element={
+                        <ProtectedRoute>
+                            <Blogpage/>
+                        </ProtectedRoute>
+                    } />
+                <Route path="/gymmap" element={
+                        <ProtectedRoute>
+                            <Gymmappage/>
                         </ProtectedRoute>
                     } />
                 <Route path="*" element={<Notfoundpage />} />
