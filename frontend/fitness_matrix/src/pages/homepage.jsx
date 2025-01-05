@@ -13,6 +13,7 @@ import GymFinder from '../components/gymmap';
 import MeditationMusic from '../components/yogamusic';
 import DietChart from '../components/diet';
 import WorkoutRoutine from '../components/routine';
+import Blog from '../components/blog';
 
 function HomePage() {
   const cardsData = [
@@ -59,6 +60,7 @@ function HomePage() {
       
       <Trackercard />
       <Footer />
+      <Blog/>
       
       
     </div>
