@@ -25,7 +25,7 @@ const createOrder = async (req, res) => {
         const order = new Order({
             products,
             totalAmount,
-            userId: req.user.id, // Use the user ID from the authenticated user
+            userId: req.user.userId,
         });
 
         await order.save();
