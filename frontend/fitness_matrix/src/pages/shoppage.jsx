@@ -7,7 +7,6 @@ export default function shopage() {
         <>
             <Navbar/>
             <Shop/>
-           
         </>
     );
 }

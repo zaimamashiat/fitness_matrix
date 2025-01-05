@@ -1,39 +1,8 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState , useContext  } from "react";
+import { AuthContext } from "../context/authcontext";
 
 function Navbar() {
-    const [username, setUsername] = useState(null);
-
-    useEffect(() => {
-        // Check if token and userId are present in localStorage
-        const token = localStorage.getItem("authToken");
-        const userId = localStorage.getItem("userId");
-
-        if (token && userId) {
-            // Fetch the current user's data
-            axios
-                .get(`http://localhost:5000/api/users/${userId}`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                })
-                .then((response) => {
-                    setUsername(response.data.username);
-                })
-                .catch((error) => {
-                    console.error("Failed to fetch user data", error);
-                    // Handle error (e.g., invalid token, user not found)
-                    localStorage.removeItem("authToken");
-                    localStorage.removeItem("userId");
-                });
-        }
-    }, []);
-
-    const handleLogout = () => {
-        // Clear localStorage and reset state
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("userId");
-        setUsername(null);
-        window.location.reload(); // Optionally, reload the page or redirect to login
-    };
+    const { user, logout, loading } = useContext(AuthContext);
     return (
         <header className="bg-white dark:bg-gray-900">
             <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -109,14 +78,15 @@ function Navbar() {
                         </nav>
 
                         <div className="flex items-center gap-4">
-                        {username ? (
+                        
+                        {user ? (
                                 <div className="sm:flex sm:gap-4 justify-center items-center">
                                     <span className="text-gray-700 dark:text-white">
-                                        Hi, {username}
+                                        Hi, {user.username}
                                     </span>
                                     <button
                                         className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500"
-                                        onClick={handleLogout}
+                                        onClick={logout}
                                     >
                                         Sign Out
                                     </button>

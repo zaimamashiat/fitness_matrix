@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Homecard({ title, image, description }) {
+function Homecard({ title, image, description, link }) {
   return (
     <div>
-      <a href="#" className="group relative block bg-black">
+      <a href={`${link}`} className="group relative block bg-black">
         <img
           alt={title}
           src={image}

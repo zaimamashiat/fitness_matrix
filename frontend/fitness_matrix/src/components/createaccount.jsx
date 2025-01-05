@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { backend } from '../context/api';
 
 function CreateAccount() {
   const [formData, setFormData] = useState({
@@ -37,7 +38,7 @@ function CreateAccount() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/users/', {
+      const response = await axios.post(`${backend}/users/`, {
         username: formData.username,
         firstName: formData.firstName,
         lastName: formData.lastName,

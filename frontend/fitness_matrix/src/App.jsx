@@ -11,6 +11,9 @@ import CreateAccountPage from "./pages/createaccountpage";
 import Shop from "./pages/shoppage";
 import Dashboardpage from "./pages/dashboardpage";
 import ProtectedRoute from "./components/protectedpage";
+import Routinepage from "./pages/routinepage";
+import CaloriesTrackerpage from "./pages/calorietracker";
+import Dietchartpage from "./pages/dietchartpage";
 
 
 function App() {
@@ -33,6 +36,22 @@ function App() {
                             <Dashboardpage/>
                         </ProtectedRoute>
                     } />
+                <Route path="/workoutroutine" element={
+                        <ProtectedRoute>
+                            <Routinepage/>
+                        </ProtectedRoute>
+                    } />
+                <Route path="/caloriestracker" element={
+                        <ProtectedRoute>
+                            <CaloriesTrackerpage/>
+                        </ProtectedRoute>
+                    } />
+                <Route path="/dietchart" element={
+                        <ProtectedRoute>
+                            <Dietchartpage/>
+                        </ProtectedRoute>
+                    } />
+                    
             </Routes>
             <Toaster position="bottom-right"/>
         </div>

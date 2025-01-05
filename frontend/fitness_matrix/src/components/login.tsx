@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { toast } from 'sonner';
+import { backend } from "../context/api";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ export default function Login() {
         setError(""); // Clear previous error
 
         try {
-            const response = await axios.post("http://localhost:5000/api/users/login", {
+            const response = await axios.post(`${backend}/users/login`, {
                 email,
                 password,
             });
