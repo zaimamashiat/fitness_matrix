@@ -6,6 +6,7 @@ import { FaPlus, FaMinus, FaTrashAlt } from "react-icons/fa"; // Importing icons
 function Checkout() {
     const [productsDetails, setProductsDetails] = useState([]);
     const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('selectedProducts')) || []);
+    const [orderPlaced, setOrderPlaced] = useState(false);
 
     // Fetch product details based on selected IDs
     useEffect(() => {
@@ -54,6 +55,12 @@ function Checkout() {
     useEffect(() => {
         localStorage.setItem("selectedProducts", JSON.stringify(cartItems));
     }, [cartItems]);
+
+    // Handle checkout button click
+    const handleCheckout = () => {
+        setOrderPlaced(true);
+        // Here you can also add an API call to process the order
+    };
 
     return (
         <div className="max-w-screen-lg mx-auto mt-10 checkout-page">
@@ -105,6 +112,23 @@ function Checkout() {
                 </ul>
             ) : (
                 <p>No items in the cart.</p>
+            )}
+
+            {/* Checkout button */}
+            {productsDetails.length > 0 && (
+                <button
+                    onClick={handleCheckout}
+                    className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-teal-600 transition"
+                >
+                    Checkout
+                </button>
+            )}
+
+            {/* Success message */}
+            {orderPlaced && (
+                <p className="mt-4 text-center text-green-600 font-semibold">
+                    Successfully placed order!
+                </p>
             )}
         </div>
     );

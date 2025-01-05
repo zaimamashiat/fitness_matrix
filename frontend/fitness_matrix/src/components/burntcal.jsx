@@ -1,6 +1,6 @@
 import React from 'react'
 
-function burntcal() {
+function Burntcal() {
   return (
     <div>
 {/*
@@ -158,4 +158,4 @@ function burntcal() {
   )
 }
 
-export default burntcal
+export default Burntcal

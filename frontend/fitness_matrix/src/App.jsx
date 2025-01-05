@@ -12,7 +12,6 @@ import Shop from "./pages/shoppage";
 import Dashboardpage from "./pages/dashboardpage";
 import ProtectedRoute from "./components/protectedpage";
 import Routinepage from "./pages/routinepage";
-import CaloriesTrackerpage from "./pages/calorietracker";
 import Dietchartpage from "./pages/dietchartpage";
 import Yogameditationpage from "./pages/yogameditationpage";
 import Workoutvideopage from "./pages/workoutvideopage";
@@ -21,6 +20,8 @@ import Notfoundpage from "./pages/404page";
 import Checkoutpage from "./pages/checkoutpage";
 import Blogpage from "./pages/blogpage";
 import Gymmappage from "./pages/gymmappage";
+import Burntcalpage from "./pages/burntcalpage";
+import CaloriesTrackerpage from "./pages/calorietracker";
 
 
 function App() {
@@ -88,6 +89,17 @@ function App() {
                             <Gymmappage/>
                         </ProtectedRoute>
                     } />
+                <Route path="/burntcal" element={
+                        <ProtectedRoute>
+                            <Burntcalpage/>
+                        </ProtectedRoute>
+                    } />
+                <Route path="/caltracker" element={
+                        <ProtectedRoute>
+                            <CaloriesTrackerpage/>
+                        </ProtectedRoute>
+                    } />
+
                 <Route path="*" element={<Notfoundpage />} />
             </Routes>
             <Toaster position="bottom-right"/>

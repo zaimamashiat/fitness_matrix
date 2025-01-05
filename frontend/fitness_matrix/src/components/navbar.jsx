@@ -5,34 +5,38 @@ function Navbar() {
     const { user, logout, loading } = useContext(AuthContext);
     const buttonList = [
         {
-            id:1,
+            id: 0,
+            name: "Recipes",
+            href: "/recipe"
+        },
+        {
+            id: 1,
             name: "Meals",
-            href: "/"
+            href: "/dietchart"
         },
         {
-            id:2,
+            id: 2,
             name: "Workout",
-            href: "/"
+            href: "/workoutvideo"
         },
         {
-            id:3,
+            id: 3,
             name: "Yoga and Meditation",
-            href: "/"
+            href: "/yoga"
         },
         {
-            id:4,
+            id: 4,
             name: "Check your Progress",
             href: "/"
         },
         {
-            id:5,
+            id: 5,
             name: "Shop",
             href: "/shop"
         }
         
-
-        
     ];
+    
     return (
         <header className="bg-white dark:bg-gray-900">
             <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">

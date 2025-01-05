@@ -7,7 +7,7 @@ function CaloriesTrackerpage() {
     return <>
         <Navbar/>
         <FoodCalculator/>
-        <Burntcal/>
+        {/* <Burntcal/> */}
     </>;
 }
 

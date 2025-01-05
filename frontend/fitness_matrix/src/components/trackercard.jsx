@@ -24,7 +24,7 @@ function TrackerCard() {
                 Determine your Body Mass Index (BMI) to assess your body weight relative to your height.
               </p>
               <a
-                href="/bmi-calculator"
+                href="/bmi"
                 className="mt-4 inline-block text-sm font-medium text-blue-400 hover:underline"
               >
                 Start Now →
@@ -47,7 +47,7 @@ function TrackerCard() {
                 Find out how many calories your body needs daily to maintain your current weight.
               </p>
               <a
-                href="/calorie-requirement"
+                href="/caloriescalc"
                 className="mt-4 inline-block text-sm font-medium text-blue-400 hover:underline"
               >
                 Start Now →
@@ -70,7 +70,7 @@ function TrackerCard() {
                 Track the calories you've burned through workouts and activities.
               </p>
               <a
-                href="/calorie-burn"
+                href="/burntcal"
                 className="mt-4 inline-block text-sm font-medium text-blue-400 hover:underline"
               >
                 Start Now →
@@ -93,7 +93,7 @@ function TrackerCard() {
                 Monitor your daily calorie intake to stay on track with your fitness goals.
               </p>
               <a
-                href="/calorie-intake"
+                href="/caltracker"
                 className="mt-4 inline-block text-sm font-medium text-blue-400 hover:underline"
               >
                 Start Now →
