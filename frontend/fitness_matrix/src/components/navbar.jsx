@@ -38,6 +38,12 @@ function Navbar() {
             id: 6,
             name: "Blog",
             href: "/blog"
+        },
+        
+        {
+            id: 7,
+            name: "Map",
+            href: "/gymmap"
         }
         
     ];
