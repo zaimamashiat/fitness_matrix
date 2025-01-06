@@ -22,7 +22,7 @@ import Blogpage from "./pages/blogpage";
 import Gymmappage from "./pages/gymmappage";
 import Burntcalpage from "./pages/burntcalpage";
 import CaloriesTrackerpage from "./pages/calorietracker";
-
+import WaterIntakePage from './pages/WaterIntakePage';
 
 function App() {
     return (
@@ -99,8 +99,10 @@ function App() {
                             <CaloriesTrackerpage/>
                         </ProtectedRoute>
                     } />
+                <Route path="/water-intake" element={<WaterIntakePage />} />
 
                 <Route path="*" element={<Notfoundpage />} />
+
             </Routes>
             <Toaster position="bottom-right"/>
         </div>

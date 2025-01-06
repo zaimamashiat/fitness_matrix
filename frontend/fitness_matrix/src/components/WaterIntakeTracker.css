@@ -1,0 +1,204 @@
+/* General styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3f4f8;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 16px;
+}
+
+.container {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+/* Goal Section */
+.goal-container {
+  margin-bottom: 30px;
+}
+
+.goal-container label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #7f8c8d;
+  margin-bottom: 10px;
+}
+
+.goal-container input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  font-size: 16px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  transition: all 0.3s;
+}
+
+.goal-container input:focus {
+  border-color: #3498db;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.set-goal-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #3498db;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.set-goal-btn:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+/* Water Intake Section */
+.input-container {
+  margin-bottom: 30px;
+}
+
+.input-container label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #7f8c8d;
+  margin-bottom: 10px;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  font-size: 16px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  transition: all 0.3s;
+}
+
+.input-container input:focus {
+  border-color: #3498db;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.add-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #e67e22;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.add-btn:hover {
+  background-color: #d35400;
+  transform: scale(1.05);
+}
+
+/* Total and Goal Progress */
+.total-container {
+  margin-top: 40px;
+}
+
+h2 {
+  font-size: 18px;
+  color: #27ae60;
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.progress {
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+progress {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background: #ecf0f1;
+}
+
+.progress[value]::-webkit-progress-bar {
+  background-color: #ecf0f1;
+}
+
+.progress[value]::-webkit-progress-value {
+  background-color: #3498db;
+  border-radius: 10px;
+}
+
+.progress[value]::-moz-progress-bar {
+  background-color: #3498db;
+}
+
+.water-amount {
+  font-size: 28px;
+  font-weight: 700;
+  color: #3498db;
+}
+
+.reset-btn {
+  margin-top: 20px;
+  padding: 12px;
+  width: 100%;
+  background-color: #dcdde1;
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.reset-btn:hover {
+  background-color: #b0b5b9;
+  transform: scale(1.05);
+}
