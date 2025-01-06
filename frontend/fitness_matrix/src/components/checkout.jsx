@@ -26,14 +26,19 @@ function Checkout() {
         fetchSelectedProducts();
     }, [cartItems]);
 
-    // Increase quantity of the product
     const increaseQuantity = (productId) => {
         setCartItems((prevItems) => {
-            return prevItems.map((item) =>
-                item === productId ? item + 1 : item
+            const updatedItems = prevItems.map((item) =>
+                item.id === productId 
+                    ? { ...item, quantity: item.quantity + 1 } 
+                    : item
             );
+            console.log("Updated cart items:", updatedItems);
+            return updatedItems;
         });
     };
+    
+    
 
     // Decrease quantity of the product
     const decreaseQuantity = (productId) => {

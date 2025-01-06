@@ -33,6 +33,11 @@ function Navbar() {
             id: 5,
             name: "Shop",
             href: "/shop"
+        },
+        {
+            id: 5,
+            name: "Blog",
+            href: "/blog"
         }
         
     ];
