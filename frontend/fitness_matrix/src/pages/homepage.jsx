@@ -60,7 +60,7 @@ function HomePage() {
       
       <Trackercard />
       <Footer />
-      <Blog/>
+      
       
       
     </div>
