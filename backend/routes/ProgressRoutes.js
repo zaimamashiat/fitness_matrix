@@ -13,7 +13,7 @@ router.post("/", authenticate, async (req, res) => {
 
     try {
         const progress = new Progress({
-            userId: req.user.id, // Extracted from token in the middleware
+            userId: req.user.userId, // Extracted from token in the middleware
             weight,
             height,
             note,
@@ -30,7 +30,7 @@ router.post("/", authenticate, async (req, res) => {
 // Get progress entries for the authenticated user
 router.get("/", authenticate, async (req, res) => {
     try {
-        const progressEntries = await Progress.find({ userId: req.user.id }).sort({ createdAt: -1 });
+        const progressEntries = await Progress.find({ userId: req.user.userId }).sort({ createdAt: -1 });
         res.status(200).json(progressEntries);
     } catch (error) {
         console.error(error);

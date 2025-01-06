@@ -30,6 +30,6 @@ app.use('/api/meals', mealRoutes);
 app.use('/api/product', productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/recipes", recipeRoutes);
-app.use("/api/progress", progressRoutes)
+app.use("/api/progress", progressRoutes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
