@@ -35,7 +35,7 @@ function Navbar() {
             href: "/shop"
         },
         {
-            id: 5,
+            id: 6,
             name: "Blog",
             href: "/blog"
         }

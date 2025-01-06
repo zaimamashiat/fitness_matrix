@@ -83,6 +83,7 @@ function Checkout() {
             setOrderPlaced(true);
             setCartItems([]); // Clear the cart after placing the order
             localStorage.removeItem("selectedProducts"); // Clear local storage
+            window.location.href = "/"
         } catch (error) {
             console.error("Error placing order:", error);
         }

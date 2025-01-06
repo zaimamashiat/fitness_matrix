@@ -46,10 +46,10 @@ function Userbanner() {
                             <strong>BMI:</strong> {user.BMI}
                         </div>
                         <div>
-                            <strong>Age:</strong> {user.age}
+                            {/* <strong>Age:</strong> {user.age} */}
                         </div>
                         <div>
-                            <strong>Calories:</strong> {user.calories}
+                            <strong>Recommended Calories Intake:</strong> {user.calories}
                         </div>
                         <div>
                             <strong>Height:</strong> {user.height} cm

@@ -40,7 +40,7 @@ const YogaMeditationGrid = () => {
       title: "15-Minute Vinyasa Yoga",
       duration: "15 mins",
       category: "Yoga",
-      thumbnail: "https://images.unsplash.com/photo-1517659529168-3cbb52cd6f3f?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3",
+      thumbnail: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       link: "https://www.youtube.com/watch?v=mno345"
     },
     {
@@ -48,7 +48,7 @@ const YogaMeditationGrid = () => {
       title: "30-Minute Deep Relaxation Meditation",
       duration: "30 mins",
       category: "Meditation",
-      thumbnail: "https://images.unsplash.com/photo-1499390097842-7d2462d58a4e?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3",
+      thumbnail: "https://images.unsplash.com/photo-1484452330304-377cdeb05340?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       link: "https://www.youtube.com/watch?v=pqr678"
     },
     {
@@ -56,7 +56,7 @@ const YogaMeditationGrid = () => {
       title: "Yoga for Better Sleep",
       duration: "15 mins",
       category: "Yoga",
-      thumbnail: "https://images.unsplash.com/photo-1540206352-98a8f6bc8b61?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3",
+      thumbnail: "https://images.unsplash.com/photo-1552196527-bffef41ef674?q=80&w=1926&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       link: "https://www.youtube.com/watch?v=stu901"
     },
     {
@@ -64,7 +64,7 @@ const YogaMeditationGrid = () => {
       title: "Meditation for Anxiety Relief",
       duration: "20 mins",
       category: "Meditation",
-      thumbnail: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3",
+      thumbnail: "https://images.unsplash.com/photo-1548687979-86cda6b97310?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       link: "https://www.youtube.com/watch?v=vwx234"
     },
     {
@@ -72,7 +72,7 @@ const YogaMeditationGrid = () => {
       title: "Power Yoga for Strength",
       duration: "25 mins",
       category: "Yoga",
-      thumbnail: "https://images.unsplash.com/photo-1549638440-38ef1e14a21c?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3",
+      thumbnail: "https://images.unsplash.com/photo-1526718583451-e88ebf774771?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       link: "https://www.youtube.com/watch?v=yzx567"
     }
   ];

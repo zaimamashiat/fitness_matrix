@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './WaterIntakePage.css';
+// import './WaterIntakePage.css';
 
 const WaterIntakePage = () => {
   const [waterIntake, setWaterIntake] = useState(0);
