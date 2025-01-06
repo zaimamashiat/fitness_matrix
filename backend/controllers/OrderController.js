@@ -25,7 +25,7 @@ const createOrder = async (req, res) => {
         const order = new Order({
             products,
             totalAmount,
-            userId: req.user.userId,
+            userId: req.user.id, // Use the user ID from the authenticated user
         });
 
         await order.save();
@@ -39,7 +39,7 @@ const createOrder = async (req, res) => {
 // Get all orders for the authenticated user
 const getOrders = async (req, res) => {
     try {
-        const orders = await Order.find({ userId: req.user.userId }).populate("products.productId", "name price");
+        const orders = await Order.find({ userId: req.user.id }).populate("products.productId", "name price");
         res.status(200).json(orders);
     } catch (error) {
         console.error(error);

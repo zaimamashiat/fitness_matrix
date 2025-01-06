@@ -72,7 +72,7 @@ const VideoGrid = () => {
       title: "Core and Abs Workout",
       duration: "5 mins",
       category: "Targeted Muscle Group Workouts",
-      thumbnail: "https://images.unsplash.com/photo-1532384748853-8f54a8f476e2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      thumbnail: "https://source.unsplash.com/300x200/?core,abs",
       link: "https://www.youtube.com/watch?v=6UWcaE8rR68"
     },
     {
@@ -80,7 +80,7 @@ const VideoGrid = () => {
       title: "No-Equipment Full-Body Workout",
       duration: "10 mins",
       category: "Home Workouts",
-      thumbnail: "https://images.unsplash.com/photo-1532384748853-8f54a8f476e2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      thumbnail: "https://source.unsplash.com/300x200/?no-equipment,workout",
       link: "https://www.youtube.com/watch?v=lfuksOKxlh4"
     },
     {
@@ -88,7 +88,7 @@ const VideoGrid = () => {
       title: "Resistance Band Workout",
       duration: "10 mins",
       category: "Home Workouts",
-      thumbnail: "https://images.unsplash.com/photo-1567598508481-65985588e295?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      thumbnail: "https://source.unsplash.com/300x200/?resistance,band",
       link: "https://www.youtube.com/watch?v=Ks6zEQ3eNsU"
     },
     {
@@ -96,7 +96,7 @@ const VideoGrid = () => {
       title: "Chair-Based Exercises",
       duration: "5 mins",
       category: "Home Workouts",
-      thumbnail: "https://images.unsplash.com/photo-1434596922112-19c563067271?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      thumbnail: "https://source.unsplash.com/300x200/?chair,exercise",
       link: "https://www.youtube.com/watch?v=2XVm_am4MeY"
     },
   ];
