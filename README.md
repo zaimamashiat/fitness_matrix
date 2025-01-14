@@ -55,6 +55,7 @@
 3. Turn on the backend:
    ```bash
    cd backend
+   npm i
    node server.js
    ```
 
