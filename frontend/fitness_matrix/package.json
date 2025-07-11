@@ -12,6 +12,7 @@
   "dependencies": {
     "@tailwindcss/forms": "^0.5.9",
     "autoprefixer": "^10.4.20",
+    "axios": "^1.10.0",
     "crypto-js": "^4.2.0",
     "oauth-1.0a": "^2.2.6",
     "postcss": "^8.4.49",
